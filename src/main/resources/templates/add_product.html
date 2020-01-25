@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация продукта</title>
+</head>
+<body>
+<h3>регистрация продукта</h3>
+<form method="post" th:action="@{/product/add}" th:object="${product}">
+    <div>
+        <label>Имя продукта:
+            <input th:field="*{productName}" type="text">
+        </label>
+    </div>
+    <div>
+        <label>Цена продукта:
+            <input th:field="*{productPrice}" type="number">
+        </label>
+    </div>
+    <div>
+        <select name="productGroupId">
+            <option th:each="productGroup : ${productGroups}" th:value="${productGroup.id}" th:utext="${productGroup.productGroupName}">
+            </option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Добавить">
+    </div>
+</form>
+</body>
+</html>

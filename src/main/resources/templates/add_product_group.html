@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление группы продуктов</title>
+</head>
+<body>
+    <h3>Форма добавления группы продуктов</h3>
+
+    <form method="post" th:action="@{/productgroup/add}" th:object="${productGroup}">
+        <label>Название группы продуктов
+            <input th:field="*{productGroupName}" type="text">
+        </label>
+        <p>
+            <input type="submit" value="Добавить">
+        </p>
+    </form>
+
+
+</body>
+</html>
