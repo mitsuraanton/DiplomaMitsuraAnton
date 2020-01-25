@@ -15,9 +15,7 @@ public class Product {
 
     private int productPrice;
 
-    @ManyToOne
-    @JoinColumn
-    private ProductGroup productGroup;
+    private int productGroupId;
 
     public int getId() {
         return id;
@@ -43,11 +41,11 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    public ProductGroup getProductGroup() {
-        return productGroup;
+    public int getProductGroupId() {
+        return productGroupId;
     }
 
-    public void setProductGroup(ProductGroup productGroup) {
-        this.productGroup = productGroup;
+    public void setProductGroupId(int productGroupId) {
+        this.productGroupId = productGroupId;
     }
 }

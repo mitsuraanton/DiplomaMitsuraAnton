@@ -15,12 +15,6 @@ public class ProductGroup {
 
     private String productGroupName;
 
-    @OneToMany(mappedBy = "productGroup",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
-
     public int getId() {
         return id;
     }
@@ -35,13 +29,5 @@ public class ProductGroup {
 
     public void setProductGroupName(String productGroupName) {
         this.productGroupName = productGroupName;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 }
