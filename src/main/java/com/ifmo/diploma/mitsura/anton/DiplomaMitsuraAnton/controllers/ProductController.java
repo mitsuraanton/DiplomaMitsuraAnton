@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+
+
 @RestController
 public class ProductController {
     private ProductRepository productRepository;
@@ -16,19 +18,16 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    // данные по всем группам продуктов
     @GetMapping(value = "/products")
     public Iterable<Product> findAll(){
         return productRepository.findAll(); // вернется JSON строка
     }
 
-    // данные по id
     @GetMapping(value = "/products/{id}")
     public Optional<Product> findId(@PathVariable int id){
         return productRepository.findById(id); // вернется JSON строка
     }
 
-    // данные по group id
     @GetMapping(value = "/products/by_group_id/{id}")
     public Iterable<Product> findGroupId(@PathVariable int id){
         return productRepository.findByProductGroupId(id); // вернется JSON строка

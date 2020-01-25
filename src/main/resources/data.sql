@@ -1,8 +1,14 @@
+DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS product_group;
 
 CREATE TABLE product_group (id int, product_group_name varchar(255));
 CREATE TABLE product (id int, product_name varchar(255), product_price int, product_group_id int);
+CREATE TABLE orders (id int, product_id int, amount int, client_name varchar(255), order_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
+
+
+INSERT INTO orders (id, product_id, amount, client_name) VALUES (1, 1, 3, 'Tamerlan');
+
 
 INSERT INTO product_group VALUES (1, 'Продукты питания');
 INSERT INTO product_group VALUES (2, 'Строительные инструменты');
