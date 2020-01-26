@@ -2,10 +2,7 @@ package com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 public class Orders {
@@ -18,7 +15,15 @@ public class Orders {
 
     private int amount;
 
+    private int sum;
+
     private String clientName;
+
+    private String clientPassword;
+
+    @ManyToOne
+    @JoinColumn
+        private GroupedOrders groupedOrders;
 
     public int getId() {
         return id;
@@ -36,6 +41,22 @@ public class Orders {
         this.productId = productId;
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
+    }
+
     public String getClientName() {
         return clientName;
     }
@@ -44,11 +65,19 @@ public class Orders {
         this.clientName = clientName;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getClientPassword() {
+        return clientPassword;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setClientPassword(String clientPassword) {
+        this.clientPassword = clientPassword;
+    }
+
+    public GroupedOrders getGroupedOrders() {
+        return groupedOrders;
+    }
+
+    public void setGroupedOrders(GroupedOrders groupedOrders) {
+        this.groupedOrders = groupedOrders;
     }
 }

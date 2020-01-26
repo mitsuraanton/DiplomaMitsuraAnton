@@ -1,33 +1,50 @@
 package com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.controllers;
 
+import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity.GroupedOrders;
 import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity.Orders;
+import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity.Product;
+import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.repository.GroupedOrdersRepository;
 import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.repository.OrdersRepository;
+import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 public class OrdersController {
     private OrdersRepository ordersRepository;
+    private ProductRepository productRepository;
+    private GroupedOrdersRepository groupedOrdersRepository;
 
     @Autowired
-    public OrdersController(OrdersRepository ordersRepository) {
+    public OrdersController(OrdersRepository ordersRepository, ProductRepository productRepository, GroupedOrdersRepository groupedOrdersRepository) {
         this.ordersRepository = ordersRepository;
+        this.productRepository = productRepository;
+        this.groupedOrdersRepository = groupedOrdersRepository;
     }
 
-    @GetMapping(value = "/orders")
-    public Iterable<Orders> findAll(){
-        return ordersRepository.findAll(); // вернется JSON строка
+    @PostMapping(path = "/orders/myAll")
+    public Iterable<Orders> findMyOrders(@RequestBody GroupedOrders groupedOrder) {
+        return ordersRepository.findByClientNameAndClientPassword(groupedOrder.getClientName(), groupedOrder.getClientPassword());
     }
 
-    @GetMapping(value = "/orders/{id}")
-    public Optional<Orders> findId(@PathVariable int id){
-        return ordersRepository.findById(id); // вернется JSON строка
+    @PostMapping(value = "/orders/id")
+    public Iterable<Orders> findById(@RequestBody GroupedOrders groupedOrder) {
+        return ordersRepository.findByGroupedOrders(groupedOrder);
     }
 
     @PostMapping(path = "/orders/add")
-    public void submitForm(@RequestBody Orders order){
-        ordersRepository.save(order);
+    public void submitForm(@RequestBody List<Orders> orders) {
+        GroupedOrders groupedOrder = new GroupedOrders().setClientName(orders.get(0).getClientName()).setClientPassword(orders.get(0).getClientPassword());
+        groupedOrdersRepository.save(groupedOrder);
+        GroupedOrders groupedOrderSelectedFromDb = groupedOrdersRepository
+                .findByClientNameAndClientPasswordOrderByGroupIdDesc(groupedOrder.getClientName(), groupedOrder.getClientPassword()).iterator().next();
+        for (Orders order : orders) {
+            Product product = productRepository.findById(order.getProductId()).get();
+            order.setSum(product.getProductPrice() * order.getAmount());
+            order.setGroupedOrders(groupedOrderSelectedFromDb);
+            ordersRepository.save(order);
+        }
     }
 }

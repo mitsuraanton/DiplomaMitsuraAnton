@@ -20,16 +20,16 @@ public class ProductController {
 
     @GetMapping(value = "/products")
     public Iterable<Product> findAll(){
-        return productRepository.findAll(); // вернется JSON строка
+        return productRepository.findAll();
     }
 
     @GetMapping(value = "/products/{id}")
     public Optional<Product> findId(@PathVariable int id){
-        return productRepository.findById(id); // вернется JSON строка
+        return productRepository.findById(id);
     }
 
     @GetMapping(value = "/products/by_group_id/{id}")
     public Iterable<Product> findGroupId(@PathVariable int id){
-        return productRepository.findByProductGroupId(id); // вернется JSON строка
+        return productRepository.findByProductGroupId(id);
     }
 }

@@ -18,11 +18,11 @@ public class ProductGroupController {
 
     @GetMapping(value = "/product_groups")
     public Iterable<ProductGroup> findAll(){
-        return productGroupRepository.findAll(); // вернется JSON строка
+        return productGroupRepository.findAll();
     }
 
     @GetMapping(value = "/product_groups/{id}")
     public Optional<ProductGroup> findId(@PathVariable int id){
-        return productGroupRepository.findById(id); // вернется JSON строка
+        return productGroupRepository.findById(id);
     }
 }
