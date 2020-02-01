@@ -24,6 +24,27 @@ public class OrdersController {
         this.groupedOrdersRepository = groupedOrdersRepository;
     }
 
+    @GetMapping(path = "/orders/add_example")
+    public String  addOrderBodyExample() {
+        return "{\n" +
+                "        \"clientName\": \"Login\",\n" +
+                "        \"clientPassword\": \"Password\",\n" +
+                "        \"deliveryAddres\": \"City, Street, house_number\",\n" +
+                "        \"deliveryDate\": \"2099-12-31\",\n" +
+                "\"orders\" :[\n" +
+                "    {\n" +
+                "    \t\"productId\" : 1,\n" +
+                "    \t\"amount\" : 2\n" +
+                "\n" +
+                "    },\n" +
+                "        {\n" +
+                "    \t\"productId\" : 3,\n" +
+                "    \t\"amount\" : 4\n" +
+                "    }\n" +
+                "]\n" +
+                "}";
+    }
+
     @PostMapping(path = "/orders/myAll")
     public Iterable<GroupedOrders> findMyOrders(@RequestBody GroupedOrders groupedOrder) {
         return groupedOrdersRepository.findByClientNameAndClientPasswordOrderByGroupIdDesc(groupedOrder.getClientName(), groupedOrder.getClientPassword());
@@ -31,13 +52,16 @@ public class OrdersController {
 
     @PostMapping(value = "/orders/id")
     public GroupedOrders findById(@RequestBody GroupedOrders groupedOrder) {
-        return groupedOrdersRepository.findByGroupId(groupedOrder.getGroupId());
+        return groupedOrdersRepository.findByGroupIdAndClientNameAndClientPassword(groupedOrder.getGroupId(), groupedOrder.getClientName(), groupedOrder.getClientPassword());
     }
 
     @PostMapping(path = "/orders/add")
     public String addOrder(@RequestBody GroupedOrders groupedOrder) {
         if (groupedOrder.getDeliveryDate().compareTo(LocalDate.now()) <= 0) {
             return "Order was not created. Delivery date should not be before tomorrow. Delivery date: " + groupedOrder.getDeliveryDate();
+        }
+        if (groupedOrder.getDeliveryAddres() == null){
+            return "Order was not created. Delivery address was not mentioned.";
         }
         for (Orders order : groupedOrder.getOrders()) {
             Product product = productRepository.findById(order.getProductId()).get();
@@ -52,7 +76,19 @@ public class OrdersController {
             ordersRepository.save(order);
         }
         return "Order Id = " + groupedOrderSelectedFromDb.getGroupId();
+    }
 
-
+    @DeleteMapping(path = "/orders/delete")
+    public String deleteOrder(@RequestBody GroupedOrders groupedOrder) {
+        GroupedOrders foundGroupId = groupedOrdersRepository.findByGroupIdAndClientNameAndClientPassword(groupedOrder.getGroupId(),
+                groupedOrder.getClientName(), groupedOrder.getClientPassword());
+        if (foundGroupId == null){
+            return "Order was not found";
+        }
+        if (foundGroupId.getDeliveryDate().compareTo(LocalDate.now()) <=0){
+            return "You can't delete an order with Delivery Date before tomorrow.";
+        }
+        groupedOrdersRepository.delete(foundGroupId);
+        return "Order with groupId = " + groupedOrder.getGroupId() + " was successfully removed.";
     }
 }

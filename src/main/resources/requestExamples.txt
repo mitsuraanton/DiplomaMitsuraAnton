@@ -1,6 +1,7 @@
 GET:
 http://localhost:8888/products
 http://localhost:8888/product_groups
+http://localhost:8888/orders/add_example
 
 POST:
 http://localhost:8888/orders/myAll
@@ -12,7 +13,9 @@ http://localhost:8888/orders/myAll
 
 http://localhost:8888/orders/id
     {
-    	"groupId" : 2
+    	"groupId" : 1,
+    	"clientName": "Petr1",
+        "clientPassword": "12345"
     }
 
 

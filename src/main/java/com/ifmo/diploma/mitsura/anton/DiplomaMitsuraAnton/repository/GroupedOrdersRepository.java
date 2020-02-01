@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface GroupedOrdersRepository extends CrudRepository<GroupedOrders, Integer> {
     Iterable<GroupedOrders> findByClientNameAndClientPasswordOrderByGroupIdDesc(String clientName, String clientPassword);
-    GroupedOrders findByGroupId(int groupId);
+    GroupedOrders findByGroupIdAndClientNameAndClientPassword(int groupId, String clientName, String clientPassword);
 }
