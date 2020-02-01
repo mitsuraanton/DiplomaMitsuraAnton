@@ -12,24 +12,25 @@ http://localhost:8888/orders/myAll
 
 http://localhost:8888/orders/id
     {
-    	"groupId" : 2,
-        "clientName": "Petr",
-        "clientPassword": "12345"
+    	"groupId" : 2
     }
 
 
 http://localhost:8888/orders/add
-[
-    {
-    	"productId" : 14,
-    	"amount" : 3,
+{
         "clientName": "Petr",
-        "clientPassword": "12345"
+        "clientPassword": "12345",
+        "deliveryAddres": "Spb, Nevsky prospect 1",
+        "deliveryDate": "2020-03-01",
+"orders" :[
+    {
+    	"productId" : 9,
+    	"amount" : 15
+
     },
         {
-    	"productId" : 1,
-    	"amount" : 2,
-        "clientName": "Petr",
-        "clientPassword": "12345"
+    	"productId" : 6,
+    	"amount" : 27
     }
 ]
+}
