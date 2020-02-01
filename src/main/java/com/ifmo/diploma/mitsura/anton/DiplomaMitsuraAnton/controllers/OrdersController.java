@@ -35,16 +35,20 @@ public class OrdersController {
     }
 
     @PostMapping(path = "/orders/add")
-    public void submitForm(@RequestBody List<Orders> orders) {
+    public String addOrder(@RequestBody List<Orders> orders) {
         GroupedOrders groupedOrder = new GroupedOrders().setClientName(orders.get(0).getClientName()).setClientPassword(orders.get(0).getClientPassword());
+        for (Orders order : orders) {
+            Product product = productRepository.findById(order.getProductId()).get();
+            order.setSum(product.getProductPrice() * order.getAmount());
+            groupedOrder.setGroupedOrderSum(groupedOrder.getGroupedOrderSum() + order.getSum());
+        }
         groupedOrdersRepository.save(groupedOrder);
         GroupedOrders groupedOrderSelectedFromDb = groupedOrdersRepository
                 .findByClientNameAndClientPasswordOrderByGroupIdDesc(groupedOrder.getClientName(), groupedOrder.getClientPassword()).iterator().next();
         for (Orders order : orders) {
-            Product product = productRepository.findById(order.getProductId()).get();
-            order.setSum(product.getProductPrice() * order.getAmount());
             order.setGroupedOrders(groupedOrderSelectedFromDb);
             ordersRepository.save(order);
         }
+        return "Order Id = " + groupedOrderSelectedFromDb.getGroupId();
     }
 }

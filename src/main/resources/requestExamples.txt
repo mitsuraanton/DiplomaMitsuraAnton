@@ -1,0 +1,35 @@
+GET:
+http://localhost:8888/products
+http://localhost:8888/product_groups
+
+POST:
+http://localhost:8888/orders/myAll
+    {
+        "clientName": "Petr",
+        "clientPassword": "12345"
+    }
+
+
+http://localhost:8888/orders/id
+    {
+    	"groupId" : 2,
+        "clientName": "Petr",
+        "clientPassword": "12345"
+    }
+
+
+http://localhost:8888/orders/add
+[
+    {
+    	"productId" : 14,
+    	"amount" : 3,
+        "clientName": "Petr",
+        "clientPassword": "12345"
+    },
+        {
+    	"productId" : 1,
+    	"amount" : 2,
+        "clientName": "Petr",
+        "clientPassword": "12345"
+    }
+]

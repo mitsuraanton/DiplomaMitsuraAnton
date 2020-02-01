@@ -13,6 +13,10 @@ public class GroupedOrders {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int groupId;
 
+    private int groupedOrderSum;
+
+    private String deliveryAddres;
+
     private String clientName;
 
     private String clientPassword;
@@ -47,5 +51,21 @@ public class GroupedOrders {
 
     public void setGroupId(int groupId) {
         this.groupId = groupId;
+    }
+
+    public int getGroupedOrderSum() {
+        return groupedOrderSum;
+    }
+
+    public void setGroupedOrderSum(int groupedOrderSum) {
+        this.groupedOrderSum = groupedOrderSum;
+    }
+
+    public String getDeliveryAddres() {
+        return deliveryAddres;
+    }
+
+    public void setDeliveryAddres(String deliveryAddres) {
+        this.deliveryAddres = deliveryAddres;
     }
 }
