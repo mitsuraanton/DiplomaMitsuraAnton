@@ -17,10 +17,6 @@ public class Orders {
 
     private int sum;
 
-    private String clientName;
-
-    private String clientPassword;
-
     @ManyToOne
     @JoinColumn
         private GroupedOrders groupedOrders;
@@ -55,26 +51,6 @@ public class Orders {
 
     public void setSum(int sum) {
         this.sum = sum;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
-
-    public String getClientPassword() {
-        return clientPassword;
-    }
-
-    public void setClientPassword(String clientPassword) {
-        this.clientPassword = clientPassword;
-    }
-
-    public GroupedOrders getGroupedOrders() {
-        return groupedOrders;
     }
 
     public void setGroupedOrders(GroupedOrders groupedOrders) {

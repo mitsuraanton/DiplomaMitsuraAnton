@@ -9,7 +9,7 @@ import com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.repository.ProductRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @RestController
 public class OrdersController {
@@ -25,19 +25,21 @@ public class OrdersController {
     }
 
     @PostMapping(path = "/orders/myAll")
-    public Iterable<Orders> findMyOrders(@RequestBody GroupedOrders groupedOrder) {
-        return ordersRepository.findByClientNameAndClientPassword(groupedOrder.getClientName(), groupedOrder.getClientPassword());
+    public Iterable<GroupedOrders> findMyOrders(@RequestBody GroupedOrders groupedOrder) {
+        return groupedOrdersRepository.findByClientNameAndClientPasswordOrderByGroupIdDesc(groupedOrder.getClientName(), groupedOrder.getClientPassword());
     }
 
     @PostMapping(value = "/orders/id")
-    public Iterable<Orders> findById(@RequestBody GroupedOrders groupedOrder) {
-        return ordersRepository.findByGroupedOrders(groupedOrder);
+    public GroupedOrders findById(@RequestBody GroupedOrders groupedOrder) {
+        return groupedOrdersRepository.findByGroupId(groupedOrder.getGroupId());
     }
 
     @PostMapping(path = "/orders/add")
-    public String addOrder(@RequestBody List<Orders> orders) {
-        GroupedOrders groupedOrder = new GroupedOrders().setClientName(orders.get(0).getClientName()).setClientPassword(orders.get(0).getClientPassword());
-        for (Orders order : orders) {
+    public String addOrder(@RequestBody GroupedOrders groupedOrder) {
+        if (groupedOrder.getDeliveryDate().compareTo(LocalDate.now()) <= 0) {
+            return "Order was not created. Delivery date should not be before tomorrow. Delivery date: " + groupedOrder.getDeliveryDate();
+        }
+        for (Orders order : groupedOrder.getOrders()) {
             Product product = productRepository.findById(order.getProductId()).get();
             order.setSum(product.getProductPrice() * order.getAmount());
             groupedOrder.setGroupedOrderSum(groupedOrder.getGroupedOrderSum() + order.getSum());
@@ -45,10 +47,12 @@ public class OrdersController {
         groupedOrdersRepository.save(groupedOrder);
         GroupedOrders groupedOrderSelectedFromDb = groupedOrdersRepository
                 .findByClientNameAndClientPasswordOrderByGroupIdDesc(groupedOrder.getClientName(), groupedOrder.getClientPassword()).iterator().next();
-        for (Orders order : orders) {
+        for (Orders order : groupedOrder.getOrders()) {
             order.setGroupedOrders(groupedOrderSelectedFromDb);
             ordersRepository.save(order);
         }
         return "Order Id = " + groupedOrderSelectedFromDb.getGroupId();
+
+
     }
 }

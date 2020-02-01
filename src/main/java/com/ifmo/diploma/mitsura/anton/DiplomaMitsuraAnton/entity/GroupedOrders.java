@@ -1,8 +1,11 @@
 package com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,9 @@ public class GroupedOrders {
     private int groupedOrderSum;
 
     private String deliveryAddres;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate deliveryDate;
 
     private String clientName;
 
@@ -67,5 +73,21 @@ public class GroupedOrders {
 
     public void setDeliveryAddres(String deliveryAddres) {
         this.deliveryAddres = deliveryAddres;
+    }
+
+    public List<Orders> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Orders> orders) {
+        this.orders = orders;
+    }
+
+    public LocalDate getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(LocalDate deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }
