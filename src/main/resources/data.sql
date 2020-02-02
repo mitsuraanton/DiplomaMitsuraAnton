@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS product_group;
 
 CREATE TABLE product_group (id int, product_group_name varchar(255));
 CREATE TABLE product (id int, product_name varchar(255), product_price int, product_group_id int);
-CREATE TABLE grouped_orders (group_id int, grouped_order_sum int, delivery_addres varchar(255), delivery_date DATE, client_name varchar(255), client_password varchar(255), order_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE grouped_orders (group_id int, grouped_order_sum int, delivery_addres varchar(255), delivery_date DATE,client_name varchar(255), client_password varchar(255),
+phone_number varchar(255), is_delivered varchar(255) NOT NULL DEFAULT 'N', order_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE orders (grouped_orders_group_id int, product_id int, amount int, sum int, id int);
 
 INSERT INTO product_group VALUES (1, 'Продукты питания');

@@ -31,6 +31,7 @@ public class OrdersController {
                 "        \"clientPassword\": \"Password\",\n" +
                 "        \"deliveryAddres\": \"City, Street, house_number\",\n" +
                 "        \"deliveryDate\": \"2099-12-31\",\n" +
+                "        \"phoneNumber\":\"+7-905-905-90-59\"," +
                 "\"orders\" :[\n" +
                 "    {\n" +
                 "    \t\"productId\" : 1,\n" +

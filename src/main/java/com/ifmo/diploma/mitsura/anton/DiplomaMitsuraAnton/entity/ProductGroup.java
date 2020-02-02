@@ -3,8 +3,6 @@ package com.ifmo.diploma.mitsura.anton.DiplomaMitsuraAnton.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class ProductGroup {

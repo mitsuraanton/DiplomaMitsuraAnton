@@ -25,6 +25,7 @@ http://localhost:8888/orders/add
         "clientPassword": "12345",
         "deliveryAddres": "Spb, Nevsky prospect 1",
         "deliveryDate": "2020-03-01",
+        "phoneNumber":"+7-905-905-90-59",
 "orders" :[
     {
     	"productId" : 9,
