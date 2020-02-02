@@ -81,15 +81,15 @@ public class OrdersController {
 
     @DeleteMapping(path = "/orders/delete")
     public String deleteOrder(@RequestBody GroupedOrders groupedOrder) {
-        GroupedOrders foundGroupId = groupedOrdersRepository.findByGroupIdAndClientNameAndClientPassword(groupedOrder.getGroupId(),
+        GroupedOrders foundGroup = groupedOrdersRepository.findByGroupIdAndClientNameAndClientPassword(groupedOrder.getGroupId(),
                 groupedOrder.getClientName(), groupedOrder.getClientPassword());
-        if (foundGroupId == null){
+        if (foundGroup == null){
             return "Order was not found";
         }
-        if (foundGroupId.getDeliveryDate().compareTo(LocalDate.now()) <=0){
+        if (foundGroup.getDeliveryDate().compareTo(LocalDate.now()) <=0){
             return "You can't delete an order with Delivery Date before tomorrow.";
         }
-        groupedOrdersRepository.delete(foundGroupId);
+        groupedOrdersRepository.delete(foundGroup);
         return "Order with groupId = " + groupedOrder.getGroupId() + " was successfully removed.";
     }
 }
